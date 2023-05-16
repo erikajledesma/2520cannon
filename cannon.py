@@ -323,13 +323,12 @@ class Manager:
             #-
             #-
             #-
-            elif event.type == pg.key.get_pressed()[pg.K_s]:
-                if event.button == 1:
-                    self.gun2.activate()
-            elif event.type == pg.KEYUP:
-                #if event.button == 1:
-                    self.balls.append(self.gun2.strike())
-                    self.score_t.b_used += 1
+            elif pg.key.get_pressed()[pg.K_w]:
+                self.gun2.activate()
+            elif pg.key.get_pressed()[pg.K_s]:
+                self.balls.append(self.gun2.strike())
+                self.score_t.b_used += 1
+
             return done
 
     def draw(self, screen):
@@ -358,6 +357,7 @@ class Manager:
         for i, target in enumerate(self.targets):
             target.move()
         self.gun.gain()
+        self.gun2.gain()
 
     def collide(self):
         '''
