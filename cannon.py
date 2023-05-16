@@ -222,6 +222,13 @@ class MovingTargets(Target):
         self.coord[0] += self.vx
         self.coord[1] += self.vy
 
+class bombs(Target):
+    def __init__(self, coord=None, color=WHITE, rad=30):
+        super().__init__(coord,color,rad)
+        self.speed = 2
+
+    def move(self):
+        self.coord[1] += self.speed
 
 class ScoreTable:
     '''
@@ -274,6 +281,9 @@ class Manager:
                 30 - max(0, self.score_t.score()))))
             self.targets.append(Target(rad=randint(max(1, 30 - 2*max(0, self.score_t.score())),
                 30 - max(0, self.score_t.score()))))
+            self.targets.append(bombs(rad=randint(max(1, 30 - 2*max(0, self.score_t.score())),
+                30 - max(0, self.score_t.score()))))
+
 
 
     def process(self, events, screen):
@@ -385,7 +395,7 @@ pg.display.set_caption("The gun of Khiryanov")
 done = False
 clock = pg.time.Clock()
 
-mgr = Manager(n_targets=3)
+mgr = Manager(n_targets=7)
 
 while not done:
     clock.tick(15)
