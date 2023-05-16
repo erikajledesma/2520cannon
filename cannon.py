@@ -395,7 +395,7 @@ pg.display.set_caption("The gun of Khiryanov")
 done = False
 clock = pg.time.Clock()
 
-mgr = Manager(n_targets=7)
+mgr = Manager(n_targets=4)
 
 while not done:
     clock.tick(15)
