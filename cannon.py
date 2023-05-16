@@ -246,16 +246,22 @@ class ScoreTable:
 
 
 class Manager:
+
     '''
     Class that manages events' handling, ball's motion and collision, target creation, etc.
     '''
+
     def __init__(self, n_targets=1):
         self.balls = []
         self.gun = Cannon()
+        self.gun2 = Cannon(coord=[SCREEN_SIZE[1] - 100, SCREEN_SIZE[1]], angle=0, max_pow=50, min_pow=10, color=RED)
+        #def __init__(self, coord=[200, SCREEN_SIZE[1]], angle=0, max_pow=50, min_pow=10, color=GREEN):
+
         self.targets = []
         self.score_t = ScoreTable()
         self.n_targets = n_targets
         self.new_mission()
+
 
     def new_mission(self):
         '''
@@ -277,6 +283,8 @@ class Manager:
         if pg.mouse.get_focused():
             mouse_pos = pg.mouse.get_pos()
             self.gun.set_angle(mouse_pos)
+            self.gun2.set_angle(mouse_pos)
+
         
         self.move()
         self.collide()
@@ -300,6 +308,10 @@ class Manager:
                     self.gun.move(-5)
                 elif event.key == pg.K_RIGHT:
                     self.gun.move(5)
+                elif event.key == pg.K_d:
+                    self.gun2.move(5)
+                elif event.key == pg.K_a:
+                    self.gun2.move(-5)
             elif event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.gun.activate()
@@ -307,7 +319,18 @@ class Manager:
                 if event.button == 1:
                     self.balls.append(self.gun.strike())
                     self.score_t.b_used += 1
-        return done
+            #working on this
+            #-
+            #-
+            #-
+            elif event.type == pg.key.get_pressed()[pg.K_s]:
+                if event.button == 1:
+                    self.gun2.activate()
+            elif event.type == pg.KEYUP:
+                #if event.button == 1:
+                    self.balls.append(self.gun2.strike())
+                    self.score_t.b_used += 1
+            return done
 
     def draw(self, screen):
         '''
@@ -318,6 +341,7 @@ class Manager:
         for target in self.targets:
             target.draw(screen)
         self.gun.draw(screen)
+        self.gun2.draw(screen)
         self.score_t.draw(screen)
 
     def move(self):
@@ -350,6 +374,7 @@ class Manager:
         for j in reversed(targets_c):
             self.score_t.t_destr += 1
             self.targets.pop(j)
+
 
 
 screen = pg.display.set_mode(SCREEN_SIZE)
