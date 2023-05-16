@@ -14,7 +14,7 @@ BLACK = (0,0,0)
 RED = (255, 0, 0)
 GREEN = (0,255,0)
 PURPLE=(221,160,221)
-BACKGROUND=(19,6,59)
+BACKGROUND=(19,6,82)
 
 SCREEN_SIZE = (800, 600)
 
@@ -331,7 +331,7 @@ class Manager:
                 self.balls.append(self.gun2.strike())
                 self.score_t.b_used += 1
 
-            return done
+                return done
 
     def draw(self, screen):
         '''
