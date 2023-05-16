@@ -5,9 +5,14 @@ from random import randint, gauss
 pg.init()
 pg.font.init()
 
+# WHITE = (260, 260, 260)
+# BLACK = (0, 0, 0)
+# RED = (260, 0, 0)
+
 WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
+BLACK = (0,0,0)
 RED = (255, 0, 0)
+GREEN = (0,255,0)
 
 SCREEN_SIZE = (800, 600)
 
@@ -42,7 +47,7 @@ class Shell(GameObject):
 
     def check_corners(self, refl_ort=0.8, refl_par=0.9):
         '''
-        Reflects ball's velocity when ball bumps into the screen corners. Implemetns inelastic rebounce.
+        Reflects ball's velocity when ball bumps into the screen corners. Implements inelastic rebounce.
         '''
         for i in range(2):
             if self.coord[i] < self.rad:
@@ -70,14 +75,26 @@ class Shell(GameObject):
         '''
         Draws the ball on appropriate surface.
         '''
-        pg.draw.circle(screen, self.color, self.coord, self.rad)
+        #pg.draw.circle(screen, self.color, self.coord, self.rad)
+        # pg.draw.ellipse(screen, self.color, (100,160,60,40))
 
+        # draws diamond projectile
+        pg.draw.polygon(screen, self.color, [
+            (self.coord[0], self.coord[1] - self.rad),
+            (self.coord[0] + int(0.65 * self.rad), self.coord[1] - int(0.35 * self.rad)),
+            (self.coord[0] + self.rad, self.coord[1]),
+            (self.coord[0] + int(0.65 * self.rad), self.coord[1] + int(0.35 * self.rad)),
+            (self.coord[0], self.coord[1] + self.rad),
+            (self.coord[0] - int(0.65 * self.rad), self.coord[1] + int(0.35 * self.rad)),
+            (self.coord[0] - self.rad, self.coord[1]),
+            (self.coord[0] - int(0.65 * self.rad), self.coord[1] - int(0.35 * self.rad))
+        ])
 
 class Cannon(GameObject):
     '''
     Cannon class. Manages it's renderring, movement and striking.
     '''
-    def __init__(self, coord=[200, SCREEN_SIZE[1]], angle=0, max_pow=50, min_pow=10, color=RED):
+    def __init__(self, coord=[30, SCREEN_SIZE[1]//2], angle=0, max_pow=50, min_pow=10, color=GREEN):
         '''
         Constructor method. Sets coordinate, direction, minimum and maximum power and color of the gun.
         '''
@@ -109,6 +126,7 @@ class Cannon(GameObject):
         vel = self.pow
         angle = self.angle
         ball = Shell(list(self.coord), [int(vel * np.cos(angle)), int(vel * np.sin(angle))])
+        
         self.pow = self.min_pow
         self.active = False
         return ball
@@ -155,7 +173,7 @@ class Target(GameObject):
         self.rad = rad
 
         if color == None:
-            color = rand_color()
+            color = RED;
         self.color = color
 
     def check_collision(self, ball):
@@ -170,7 +188,20 @@ class Target(GameObject):
         '''
         Draws the target on the screen
         '''
-        pg.draw.circle(screen, self.color, self.coord, self.rad)
+        #pg.draw.circle(screen, self.color, self.coord, self.rad)
+        #pg.draw.ellipse(screen, self.color, (100, 160,60,40))
+
+        # draws red heart targets, scaled up by 1.5
+        pg.draw.polygon(screen, self.color, [
+            (self.coord[0], self.coord[1] - int(0.7 * self.rad)),
+            (self.coord[0] + int(0.4 * self.rad *1.5), self.coord[1] - int(0.9 * self.rad*1.5)),
+            (self.coord[0] + int(0.7 * self.rad*1.5), self.coord[1] - int(0.7 * self.rad*1.5)),
+            (self.coord[0] + int(0.8 * self.rad*1.5), self.coord[1] - int(0.5 * self.rad*1.5)),
+            (self.coord[0], self.coord[1]),
+            (self.coord[0] - int(0.8 * self.rad*1.5), self.coord[1] - int(0.5 * self.rad*1.5)),
+            (self.coord[0] - int(0.7 * self.rad*1.5), self.coord[1] - int(0.7 * self.rad*1.5)),
+            (self.coord[0] - int(0.4 * self.rad*1.5), self.coord[1] - int(0.9 * self.rad*1.5))
+        ])
 
     def move(self):
         """
