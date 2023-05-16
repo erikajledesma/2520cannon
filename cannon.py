@@ -5,9 +5,9 @@ from random import randint, gauss
 pg.init()
 pg.font.init()
 
-WHITE = (260, 260, 260)
+WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-RED = (260, 0, 0)
+RED = (255, 0, 0)
 
 SCREEN_SIZE = (800, 600)
 
@@ -77,7 +77,7 @@ class Cannon(GameObject):
     '''
     Cannon class. Manages it's renderring, movement and striking.
     '''
-    def __init__(self, coord=[30, SCREEN_SIZE[1]//2], angle=0, max_pow=50, min_pow=10, color=RED):
+    def __init__(self, coord=[200, SCREEN_SIZE[1]], angle=0, max_pow=50, min_pow=10, color=RED):
         '''
         Constructor method. Sets coordinate, direction, minimum and maximum power and color of the gun.
         '''
@@ -123,8 +123,8 @@ class Cannon(GameObject):
         '''
         Changes vertical position of the gun.
         '''
-        if (self.coord[1] > 30 or inc > 0) and (self.coord[1] < SCREEN_SIZE[1] - 30 or inc < 0):
-            self.coord[1] += inc
+        if (self.coord[0] > 30 or inc > 0) and (self.coord[0] < SCREEN_SIZE[0] - 30 or inc < 0):
+            self.coord[0] += inc
 
     def draw(self, screen):
         '''
@@ -265,9 +265,9 @@ class Manager:
             if event.type == pg.QUIT:
                 done = True
             elif event.type == pg.KEYDOWN:
-                if event.key == pg.K_UP:
+                if event.key == pg.K_LEFT:
                     self.gun.move(-5)
-                elif event.key == pg.K_DOWN:
+                elif event.key == pg.K_RIGHT:
                     self.gun.move(5)
             elif event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
