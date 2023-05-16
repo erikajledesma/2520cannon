@@ -13,6 +13,8 @@ WHITE = (255, 255, 255)
 BLACK = (0,0,0)
 RED = (255, 0, 0)
 GREEN = (0,255,0)
+PURPLE=(221,160,221)
+BACKGROUND=(19,6,59)
 
 SCREEN_SIZE = (800, 600)
 
@@ -254,7 +256,7 @@ class Manager:
     def __init__(self, n_targets=1):
         self.balls = []
         self.gun = Cannon()
-        self.gun2 = Cannon(coord=[SCREEN_SIZE[1] - 100, SCREEN_SIZE[1]], angle=0, max_pow=50, min_pow=10, color=RED)
+        self.gun2 = Cannon(coord=[SCREEN_SIZE[1] - 100, SCREEN_SIZE[1]], angle=0, max_pow=50, min_pow=10, color=PURPLE)
         #def __init__(self, coord=[200, SCREEN_SIZE[1]], angle=0, max_pow=50, min_pow=10, color=GREEN):
 
         self.targets = []
@@ -387,7 +389,7 @@ mgr = Manager(n_targets=3)
 
 while not done:
     clock.tick(15)
-    screen.fill(BLACK)
+    screen.fill(BACKGROUND)
 
     done = mgr.process(pg.event.get(), screen)
 
